@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build & Deploy to Dev') {
+            steps {
+                echo "🚀 Building and deploying to DEV environment..."
+                // Example: sh 'kubectl apply -f deployment-dev.yaml'
+            }
+        }
+
+        stage('Manual Promote to QA') {
+            steps {
+                script {
+                    input message: 'Promote this build to QA?', ok: 'Trigger QA pipeline'
+                    build job: 'app-qa-pipeline', wait: false
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Dev pipeline completed successfully."
+        }
+        failure {
+            echo "❌ Dev pipeline failed."
+        }
+    }
+}
