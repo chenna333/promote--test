@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Deploy to Prod') {
+            steps {
+                echo "🚀 Deploying to PROD environment..."
+                // Example: sh 'kubectl apply -f deployment-prod.yaml'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Production deployment completed successfully!"
+        }
+        failure {
+            echo "❌ Production deployment failed!"
+        }
+    }
+}
